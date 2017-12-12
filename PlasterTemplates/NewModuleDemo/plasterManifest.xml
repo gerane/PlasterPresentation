@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest schemaVersion="0.4" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+    <metadata>
+        <name>NewModule</name>
+        <id>8c7a8db8-a619-4978-8c8a-cd3fa55cf47a</id>
+        <version>1.0.0</version>
+        <title>New Module</title>
+        <description>Scaffolding for a New Module</description>
+        <author>Brandon Padgett</author>
+        <tags>Module, Plaster</tags>
+    </metadata>
+
+    <parameters>
+        <parameter name='ModuleName'
+                   type='text'
+                   prompt='Enter the name of the module'/>
+
+        <parameter name='ModuleDesc'
+                   type='text'
+                   prompt='Enter a description of the module (required for publishing to the PowerShell Gallery)'/>
+
+        <parameter name='Version'
+                   type='text'
+                   prompt='Enter the version number of the module'
+                   default='0.1.0'/>
+
+        <parameter name='Author'
+                   type='user-fullname'
+                   prompt='Enter the full name of the Module Author'
+                   store='text' />
+
+        <parameter name='License'
+                   type='choice'
+                   prompt='Select a license (see http://choosealicense.com for help choosing):'
+                   default='0'
+                   store='text'>
+            <choice label='&amp;None'
+                    help="No license."
+                    value="None"/>
+            <choice label='&amp;Apache'
+                    help="Adds an Apache license file."
+                    value="Apache"/>
+            <choice label='&amp;MIT'
+                    help="Adds an MIT license file."
+                    value="MIT"/>
+        </parameter>
+
+    </parameters>
+
+    <content>
+        <message>&#10;&#10;Scaffolding your PowerShell Module...&#10;&#10;&#10;</message>
+
+        <newModuleManifest destination='${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psd1'
+                           moduleVersion='$PLASTER_PARAM_Version'
+                           rootModule='${PLASTER_PARAM_ModuleName}.psm1'
+                           author='$PLASTER_PARAM_Author'
+                           description='$PLASTER_PARAM_ModuleDesc'
+                           encoding='UTF8-NoBOM'/>
+
+        <file source='Module.psm1'
+              destination='${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_ModuleName}.psm1'/>
+
+        <file source='_gitignore'
+    	      destination='.gitignore' />
+
+        <templateFile source='TemplateFiles\**'
+                      destination=''/>
+
+        <templateFile source='Module\**'
+    	              destination='${PLASTER_PARAM_ModuleName}\' />
+
+        <templateFile condition="$PLASTER_PARAM_License -eq 'Apache'"
+                      source='license\Apache.txt'
+                      destination='LICENSE.txt'
+                      encoding="UTF8-NoBOM"/>
+
+        <templateFile condition="$PLASTER_PARAM_License -eq 'MIT'"
+                      source='license\MIT.txt'
+                      destination='LICENSE.txt' />
+
+        <message>
+&#10;Your new PowerShell module project '$PLASTER_PARAM_ModuleName' has been created.&#10;
+        </message>
+
+    </content>
+</plasterManifest>

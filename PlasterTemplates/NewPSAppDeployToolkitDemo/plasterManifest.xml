@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest
+	schemaVersion="0.4" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+	<metadata>
+		<name>NewPSAppDeployToolkit</name>
+		<id>1d68ec6f-29da-4766-a11f-9d97ac9f0a8f</id>
+		<version>1.0.0</version>
+		<title>New AppDeployToolkit</title>
+		<description>Template to scaffold a PowerShell App Deploy Toolkit Project</description>
+		<author>Brandon Padgett</author>
+		<tags>PSAppDeployToolkit</tags>
+	</metadata>
+
+	<parameters>
+        <parameter name='ToolkitName'
+                   type='text'
+                   prompt='Enter the name of the Toolkit'/>
+
+        <parameter name='Version'
+                   type='text'
+                   default='1.0.0'
+                   store='text'
+                   prompt='Enter the version number for the Toolkit'/>
+
+        <parameter name='AppVersion'
+                   type='text'
+                   default='1.0.0'
+                   store='text'
+                   prompt='Enter the Application version number'/>
+
+        <parameter name='Vendor'
+                   type='text'
+                   default=''
+                   store='text'
+                   prompt='Please Enter the name of the Vendor '/>
+
+        <parameter name='Author'
+                   type='user-fullname'
+                   store='text'
+                   prompt='Enter the Author Name'/>
+
+        <parameter name='DeployMode'
+                   type='choice'
+                   default='1'
+                   store='text'
+                   prompt='Select the Deployment Mode.'>
+            <choice label='&amp;Interactive Mode'
+                    help="Sets Toolkit to Interactive Mode."
+                    value="Interactive"/>
+            <choice label='&amp;NonInteractive Mode'
+                    help="Sets Toolkit to NonInteractive Mode.."
+                    value="NonInteractive"/>
+            <choice label='&amp;Silent'
+                    help="Sets Toolkit to Silent Mode."
+                    value="Silent"/>
+        </parameter>
+
+        <parameter name='LogPath'
+                   type='text'
+                   default='$Env:Temp\Logs\${PLASTER_PARAM_ToolkitName}'
+                   store='text'
+                   prompt='Enter the log file path'/>
+
+        <parameter name='Balloons'
+                   type='choice'
+                   default='1'
+                   store='text'
+                   prompt='Do you want to allow Balloon Notifications?'>
+            <choice label='&amp;Yes'
+                    help="Sets Balloon Notifications to True."
+                    value="True"/>
+            <choice label='&amp;No'
+                    help="Sets Balloon Notifications to False."
+                    value="False"/>
+        </parameter>
+
+    </parameters>
+
+	<content>
+        <file source='Toolkit\**'
+              destination='Toolkit\'/>
+
+        <templateFile source='Toolkit\Deploy-Application.ps1'
+                      destination='Toolkit\Deploy-Application.ps1'/>
+
+        <templateFile source='Toolkit\AppDeployToolkit\AppDeployToolkitConfig.xml'
+                      destination='Toolkit\AppDeployToolkit\AppDeployToolkitConfig.xml'
+                      encoding='Unicode'/>
+
+    </content>
+</plasterManifest>
